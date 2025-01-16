@@ -1,0 +1,42 @@
+[
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "address": "123 Elm Street",
+      "city": "Springfield",
+      "state": "IL",
+      "zipCode": "62701",
+      "phone": "217-555-1234",
+      "ssn": "123-45-6789",
+      "username": "johndoe",
+      "password": "password123",
+      "confirmPassword": "password123"
+    },
+    {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "address": "456 Oak Avenue",
+      "city": "Columbus",
+      "state": "OH",
+      "zipCode": "43215",
+      "phone": "614-555-5678",
+      "ssn": "987-65-4321",
+      "username": "janesmith",
+      "password": "securePass456",
+      "confirmPassword": "securePass456"
+    },
+    {
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "address": "789 Pine Road",
+      "city": "Austin",
+      "state": "TX",
+      "zipCode": "73301",
+      "phone": "512-555-7890",
+      "ssn": "321-54-9876",
+      "username": "alicejohnson",
+      "password": "myPassword789",
+      "confirmPassword": "myPassword789"
+    }
+  ]
+  
