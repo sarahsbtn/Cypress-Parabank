@@ -29,6 +29,13 @@ describe('Homepage Tests', () => {
         basePage.verifyPageTitle('Welcome | Online Banking');
     });
 
+    // Reusable function to test navigation links
+    function testLinks(links) {
+        links.forEach(link => {
+            basePage.navigateToPage(link.selector, link.title, link.header);
+        });
+    }
+
     // General UI Tests
     describe('General UI Elements', () => {
         it('should display the logo image', () => {
@@ -43,11 +50,12 @@ describe('Homepage Tests', () => {
             });
         });
 
-        it('should display the login panel with username and password inputs', () => {
+        it('should display the login panel with username and password inputs and submit button', () => {
             cy.get('#loginPanel').should('be.visible').within(() => {
                 cy.get('form').should('exist');
                 cy.get('input[name="username"]').should('exist');
                 cy.get('input[name="password"]').should('exist');
+                cy.get('input[type="submit"].button').should('have.value', 'Log In');
             });
         });
 
@@ -63,27 +71,15 @@ describe('Homepage Tests', () => {
     // Navigation Tests
     describe('Navigation Tests', () => {
         it('should navigate to the correct pages using header panel links', () => {
-            headerLinks.forEach(link => {
-                basePage.visit('/');
-                basePage.verifyPageTitle('Welcome | Online Banking');
-                basePage.navigateToPage(link.selector, link.title, link.header);
-            });
+            testLinks(headerLinks);
         });
 
         it('should navigate to the correct pages using the button links', () => {
-            buttonLinks.forEach(link => {
-                basePage.visit('/');
-                basePage.verifyPageTitle('Welcome | Online Banking');
-                basePage.navigateToPage(link.selector, link.title, link.header);
-            });
+            testLinks(buttonLinks);
         });
 
         it('should navigate to the correct pages using the footer links', () => {
-            footerLinks.forEach(link => {
-                basePage.visit('/');
-                basePage.verifyPageTitle('Welcome | Online Banking');
-                basePage.navigateToPage(link.selector, link.title, link.header);
-            });
+            testLinks(footerLinks);
         });
 
         it('should navigate to the Forgotten login info page', () => {
@@ -94,4 +90,13 @@ describe('Homepage Tests', () => {
             basePage.navigateToPage('#loginPanel a[href="register.htm"]', 'Register for Free Online Account Access', 'Signing up is easy!');
         });
     });
+
+    // Login Form Functional Tests
+    describe('Login Form Functional Tests', () => {
+        it('should display an error message when both input fields are empty', () => {
+            basePage.clickLoginButton();
+            basePage.assertText('h1', 'Error!');
+            basePage.assertText('p.error', 'Please enter a username and password.');
+        })
+    })
 });

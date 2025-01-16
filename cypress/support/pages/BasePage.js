@@ -17,6 +17,16 @@ class BasePage {
         cy.get('h1, .heading').should('be.visible').and('contain.text', expectedText);
     }
 
+    navigateToPage(element, title, header = null) {
+        this.clickElement(element);
+        this.verifyPageTitle(title);
+
+        if (header) {
+            this.verifyHeader(header); // Verify the header if provided
+        } else {
+            cy.get('header').should('not.exist'); // Assert no header exists
+        }
+    }
     assertText(selector, expectedText) {
         cy.get(selector).should('be.visible').and('contain.text', expectedText);
     }
@@ -29,29 +39,27 @@ class BasePage {
         cy.get(selector).type(text);
     }
 
-    assertText(selector, expectedText) {
-        cy.get(selector).should('be.visible').and('contain.text', expectedText);
+    constructor() {
+        this.selectors = {
+            usernameInput: 'input[name="username"]',
+            passwordInput: 'input[name="password"]',
+            loginButton: 'input[type="submit"]',
+        };
     }
 
-    selectDropdown(selector, value) {
-        cy.get(selector).select(value);
+    fillUsername(username) {
+        this.typeText(this.selectors.usernameInput, username);
     }
 
-    checkCheckbox(selector) {
-        cy.get(selector).check();
+    fillPassword(password) {
+        this.typeText(this.selectors.passwordInput, password);
     }
 
-    navigateToPage(element, title, header = null) {
-        this.clickElement(element);
-        this.verifyPageTitle(title);
-        
-        if (header) {
-            this.verifyHeader(header); // Verify the header if provided
-        } else {
-            cy.get('header').should('not.exist'); // Assert no header exists
-        }
+    clickLoginButton() {
+        this.clickElement(this.selectors.loginButton);
     }
 
+    
 }
 
 export default BasePage;
