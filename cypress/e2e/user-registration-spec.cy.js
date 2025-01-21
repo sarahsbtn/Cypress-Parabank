@@ -12,6 +12,10 @@ describe('User Registration Tests', () => {
         registrationPage.cleanDatabase();
     });
 
+    after(() => {
+        registrationPage.cleanDatabase();
+    });
+
 
     it('should register multiple users dynamically', () => {
 
@@ -28,6 +32,30 @@ describe('User Registration Tests', () => {
                 registrationPage.clickElement('a[href="logout.htm"]');
                 registrationPage.visitRegisterPage();
             });
+        });
+    });
+
+    it('should require all inputs to be filled in order to register', () => {
+    
+        // Submit form with empty inputs
+        registrationPage.clickElement('input.button[value="Register"]');
+    
+        // Verify error messages for required fields
+        const errorMessages = [
+            'First name is required.',
+            'Last name is required.',
+            'Address is required.',
+            'City is required.',
+            'State is required.',
+            'Zip Code is required.',
+            'Social Security Number is required.',
+            'Username is required.',
+            'Password is required.',
+            'Password confirmation is required.',
+        ];
+    
+        errorMessages.forEach((errorMessage) => {
+            cy.contains('.error', errorMessage).should('be.visible');
         });
     });
 

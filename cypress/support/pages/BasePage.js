@@ -20,12 +20,12 @@ class BasePage {
     navigateToPage(selector, expectedTitle = null, expectedHeader = null) {
         this.clickElement(selector);
     
-        // If an expected title is provided, verify it
+        // Verify if title is provided
         if (expectedTitle) {
             this.verifyPageTitle(expectedTitle);
         }
     
-        // If an expected header is provided, verify it
+        // Verify if header is provided
         if (expectedHeader) {
             this.verifyHeader(expectedHeader);
         }

@@ -31,7 +31,7 @@ describe('Homepage Tests', () => {
         basePage.verifyPageTitle('Welcome | Online Banking');
     });
 
-    // Reusable function to test navigation links
+    // Function to test navigation links
     function testLinks(links) {
         links.forEach(link => {
             basePage.navigateToPage(link.selector, link.title, link.header);
@@ -39,7 +39,7 @@ describe('Homepage Tests', () => {
     }
 
     // General UI Tests
-    describe('General UI Elements', () => {
+    describe('General UI Tests', () => {
 
         it('should display the logo image', () => {
             cy.get('.logo').should('be.visible');
