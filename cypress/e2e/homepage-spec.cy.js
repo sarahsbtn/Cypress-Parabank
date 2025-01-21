@@ -1,7 +1,9 @@
 import BasePage from '../support/pages/BasePage';
+import LoginForm from '../support/pages/LoginForm';
 
 describe('Homepage Tests', () => {
     const basePage = new BasePage();
+    const loginForm = new LoginForm();
 
     // Navigation links
     const headerLinks = [
@@ -38,6 +40,7 @@ describe('Homepage Tests', () => {
 
     // General UI Tests
     describe('General UI Elements', () => {
+
         it('should display the logo image', () => {
             cy.get('.logo').should('be.visible');
         });
@@ -91,12 +94,4 @@ describe('Homepage Tests', () => {
         });
     });
 
-    // Login Form Functional Tests
-    describe('Login Form Functional Tests', () => {
-        it('should display an error message when both input fields are empty', () => {
-            basePage.clickLoginButton();
-            basePage.assertText('h1', 'Error!');
-            basePage.assertText('p.error', 'Please enter a username and password.');
-        })
-    })
 });
