@@ -3,13 +3,13 @@ import RegistrationPage from '../support/pages/RegistrationPage';
 describe('User Registration Tests', () => {
     const registrationPage = new RegistrationPage();
 
+    before(() => {
+        registrationPage.cleanDatabase();
+    });
+
     beforeEach('load the Register page', () => {
         registrationPage.visit('/register.htm');
         registrationPage.verifyPageTitle('Register for Free Online Account Access');
-    });
-
-    after(() => {
-        registrationPage.cleanDatabase();
     });
 
     after(() => {

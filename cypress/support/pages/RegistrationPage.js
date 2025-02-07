@@ -26,6 +26,22 @@ class RegisterationPage extends BasePage {
         cy.get('input.button[value="Register"]').click();
     }
 
+    registerUser(shouldLogout = true, fixturePath = 'users') {
+        cy.fixture(fixturePath).then((users) => {
+            const user = users[0];
+            this.visit('/');
+            this.clickElement('a[href="register.htm"]'); // Navigate to the registration page
+            this.fillRegistrationForm(user);
+
+            // Validate successful registration
+            cy.contains('Your account was created successfully. You are now logged in.').should('be.visible');
+
+            if (shouldLogout) {
+                this.clickElement('a[href="logout.htm"]');
+            }
+        });
+    }
+
 };
 
 export default RegisterationPage;

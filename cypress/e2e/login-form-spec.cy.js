@@ -6,18 +6,13 @@ describe('Login Form Tests', () => {
     const registrationPage = new RegistrationPage();
 
     // Register a user prior to tests 
-    let userDetails;
+    let user;
 
     before(() => {
+        loginForm.cleanDatabase();
         cy.fixture('users').then((users) => {
-            userDetails = users[0];
-            registrationPage.visit('/');
-            registrationPage.visitRegisterPage();
-            registrationPage.fillRegistrationForm(userDetails);
-
-            // Validate successful registration
-            cy.contains('Your account was created successfully. You are now logged in.').should('be.visible');
-            loginForm.clickElement(loginForm.selectors.logoutButton);
+            user = users[0];
+            registrationPage.registerUser(); // Registers the first user from the fixture
         });
     });
 
@@ -60,7 +55,7 @@ describe('Login Form Tests', () => {
             username: 'valid_username',
             password: 'invalid_password',
             expectedError: 'The username and password could not be verified.',
-        },
+        }
     ];
 
     describe('Login Errors Tests', () => {
@@ -75,11 +70,18 @@ describe('Login Form Tests', () => {
         });
     });
 
-    describe('Login Success Test', () => {
+    describe('Login and Logout Tests', () => {
         it('should login successfully with registered user', () => {
-            loginForm.login(userDetails.username, userDetails.password);
+            loginForm.login(user.username, user.password);
             loginForm.verifyPageTitle('Accounts Overview');
             loginForm.clickElement(loginForm.selectors.logoutButton);
+        });
+
+        it('should logout successfully and redirect to the homepage', () => {
+            loginForm.login(user.username, user.password);
+            loginForm.verifyPageTitle('Accounts Overview');
+            loginForm.clickElement(loginForm.selectors.logoutButton);
+            loginForm.verifyPageTitle('Welcome | Online Banking');
         });
     });
 
@@ -87,11 +89,11 @@ describe('Login Form Tests', () => {
         it('should retrieve user credentials when using Forgot login info', () => {
             loginForm.clickElement(loginForm.selectors.forgottenLoginLink);
             loginForm.verifyHeader('Customer Lookup');
-            loginForm.forgotLoginInfo(userDetails);
+            loginForm.forgotLoginInfo(user);
             loginForm.assertText('#rightPanel p', 'Your login information was located successfully. You are now logged in.');
             cy.get('#rightPanel p').eq(1).within(() => {
-                cy.contains('b', 'Username').parent().should('contain.text', userDetails.username);
-                cy.contains('b', 'Password').parent().should('contain.text', userDetails.password);
+                cy.contains('b', 'Username').parent().should('contain.text', user.username);
+                cy.contains('b', 'Password').parent().should('contain.text', user.password);
             });
 
         });
