@@ -24,7 +24,6 @@ describe('User Registration Tests', () => {
             users.forEach((user) => {
                 registrationPage.fillRegistrationForm(user);
 
-                // Verify successful registration
                 cy.contains('Your account was created successfully. You are now logged in.')
                     .should('be.visible');
 
@@ -37,10 +36,8 @@ describe('User Registration Tests', () => {
 
     it('should require all inputs to be filled in order to register', () => {
     
-        // Submit form with empty inputs
         registrationPage.clickElement('input.button[value="Register"]');
     
-        // Verify error messages for required fields
         const errorMessages = [
             'First name is required.',
             'Last name is required.',

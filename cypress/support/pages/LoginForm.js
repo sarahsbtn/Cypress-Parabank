@@ -2,7 +2,6 @@ import BasePage from './BasePage';
 
 class LoginForm extends BasePage {
     
-    // Login panel selectors
     constructor() {
         super();
         this.selectors = {

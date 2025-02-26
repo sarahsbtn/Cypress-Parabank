@@ -38,7 +38,6 @@ describe('Homepage Tests', () => {
         });
     }
 
-    // General UI Tests
     describe('General UI Tests', () => {
 
         it('should display the logo image', () => {
@@ -71,7 +70,6 @@ describe('Homepage Tests', () => {
         });
     });
 
-    // Navigation Tests
     describe('Navigation Tests', () => {
         it('should navigate to the correct pages using header panel links', () => {
             testLinks(headerLinks);

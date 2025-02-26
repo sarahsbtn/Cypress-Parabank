@@ -32,7 +32,23 @@ class AccountServices extends BasePage {
             });
     }
 
+    transferFunds(fromIndex, toIndex, amount) {
+        this.clickElement(this.selectors.transferFunds);
     
+        // Select accounts
+        cy.get('#fromAccountId').select(fromIndex);
+        cy.get('#toAccountId').select(toIndex);
+    
+        // Enter amount and submit
+        cy.get('#amount').type(amount);
+        this.clickElement('input[value="Transfer"]');
+    
+        // Confirm transfer success
+        cy.get("#showResult").should('contain', 'Transfer Complete!');
+    }
+    
+
+
 }
 
 export default AccountServices;

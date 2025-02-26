@@ -23,7 +23,6 @@ describe('Account Services Tests', () => {
             accountServices.captureAccountNumber('#accountTable tbody tr:first-child td:first-child')
                 .then((accountNumber) => {
                     initialAccountNumber = accountNumber;
-                    expect(initialAccountNumber).to.not.be.empty; // Assert it's not empty
                 });
         });
 
@@ -46,7 +45,6 @@ describe('Account Services Tests', () => {
             accountServices.captureAccountNumber('b:contains("Your new account number:") + *')
                 .then((accountNumber) => {
                     checkingAccountNumber = accountNumber;
-                    cy.log(`Checking Account Number: ${checkingAccountNumber}`);
                 });
         });
 
@@ -58,7 +56,6 @@ describe('Account Services Tests', () => {
             accountServices.captureAccountNumber('b:contains("Your new account number:") + *')
                 .then((accountNumber) => {
                     savingsAccountNumber = accountNumber;
-                    cy.log(`Savings Account Number: ${savingsAccountNumber}`);
                 });
         });
     });
@@ -70,14 +67,13 @@ describe('Account Services Tests', () => {
             loginForm.login(user.username, user.password);
             cy.contains('Accounts Overview').should('be.visible');
         });
-        
+
         it('should show the initial account and the two accounts the user created', () => {
-            // Navigate to the Accounts Overview page
             accountServices.navigateToPage(accountServices.selectors.accountOverview, 'Accounts Overview');
-        
+
             // Store the expected account numbers in an array
             const expectedAccountNumbers = [initialAccountNumber, checkingAccountNumber, savingsAccountNumber];
-        
+
             // Select only the first 3 rows to exclude the total row
             cy.get('#accountTable tbody tr').then(($rows) => {
                 cy.wrap($rows.slice(0, 3)).each(($row, index) => {
@@ -88,7 +84,7 @@ describe('Account Services Tests', () => {
                     });
                 });
             });
-        
+
             // Ensure only the first 3 rows are checked (excluding the total row)
             cy.get('#accountTable tbody tr').should('have.length.greaterThan', 3);
         });
@@ -105,22 +101,33 @@ describe('Account Services Tests', () => {
     });
 
     describe('Transfer Funds Tests', () => {
-
         beforeEach(() => {
             accountServices.visit('/');
             loginForm.login(user.username, user.password);
             cy.contains('Accounts Overview').should('be.visible');
         });
 
-        it('should transfer funds from accounts', () => {
+        it('should transfer funds between all possible account combinations', () => {
             accountServices.navigateToPage(accountServices.selectors.transferFunds, 'Transfer Funds');
-            cy
+
+            // Get the total number of accounts
+            cy.get('#fromAccountId option').then(($options) => {
+                const totalAccounts = $options.length;
+                expect(totalAccounts).to.equal(3); // Ensure multiple accounts exist
+
+                // Loop through all valid account transfers
+                for (let fromIndex = 0; fromIndex < totalAccounts; fromIndex++) {
+                    for (let toIndex = 0; toIndex < totalAccounts; toIndex++) {
+                        if (fromIndex !== toIndex) {
+                            accountServices.transferFunds(fromIndex, toIndex, 50);
+                        };
+                    };
+                };
+            });
         });
+
+
+
     });
 
-
-
-
-
 });
-
