@@ -18,7 +18,7 @@ describe('Account Services Tests', () => {
             user = users[0];
             registrationPage.registerUser(false); // Register user without logging out
 
-            // Capture the initial account number from the table
+            // Capture the initial account number 
             accountServices.visit('/overview.htm');
             accountServices.captureAccountNumber('#accountTable tbody tr:first-child td:first-child')
                 .then((accountNumber) => {
@@ -41,7 +41,7 @@ describe('Account Services Tests', () => {
             accountServices.openNewAccount('CHECKING');
             accountServices.verifyHeader('Account Opened!');
 
-            // Capture the new checking account number
+            // Capture the checking account number
             accountServices.captureAccountNumber('b:contains("Your new account number:") + *')
                 .then((accountNumber) => {
                     checkingAccountNumber = accountNumber;
@@ -52,7 +52,7 @@ describe('Account Services Tests', () => {
             accountServices.openNewAccount('SAVINGS');
             accountServices.verifyHeader('Account Opened!');
 
-            // Capture the new savings account number
+            // Capture the savings account number
             accountServices.captureAccountNumber('b:contains("Your new account number:") + *')
                 .then((accountNumber) => {
                     savingsAccountNumber = accountNumber;
@@ -74,7 +74,7 @@ describe('Account Services Tests', () => {
             // Store the expected account numbers in an array
             const expectedAccountNumbers = [initialAccountNumber, checkingAccountNumber, savingsAccountNumber];
 
-            // Select only the first 3 rows to exclude the total row
+            // Select only the first 3 rows 
             cy.get('#accountTable tbody tr').then(($rows) => {
                 cy.wrap($rows.slice(0, 3)).each(($row, index) => {
                     const accountNumber = expectedAccountNumbers[index];
