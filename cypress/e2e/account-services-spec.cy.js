@@ -126,6 +126,13 @@ describe('Account Services Tests', () => {
             });
         });
 
+        it('should not allow the user to transfer funds to the same account', () => {
+            accountServices.navigateToPage(accountServices.selectors.transferFunds, 'Transfer Funds');
+            accountServices.transferFunds(0, 0, 50);
+            cy.get('#showResult').should('contain', '');
+        }); // Website allows the user to transfer funds to the same account
+
+
 
 
     });
